@@ -1,13 +1,13 @@
 // ==UserScript==
-// @name         Teams Channel Logger
+// @name         Teams Log Download
 // @namespace    http://tampermonkey.net/
 // @version      0.6
-// @description  Scan and download the current teams channel log.
+// @description  Download the current teams channel log.
 // @author       Zachary Kitcher
 // @include      https://teams.microsoft.com*
 // @require      https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js
 // @require      https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js
-// @updateURL    https://github.com/ZKitcher/MS_Teams_Scripts/raw/master/Teams%20Channel%20Logger.user.js
+// @updateURL    https://github.com/ZKitcher/Velocity_Scripts/raw/master/Teams%20Log%20Download.user.js
 // ==/UserScript==
 
 (function() {
@@ -22,7 +22,7 @@
             $('<a id="expandButton" style="cursor: pointer; font-size: 17px;">Expand All Entries</a>').insertAfter($('#settingsDropdown'));
 
             $('#expandButton').click(function() {
-                $('<a id="scanningEntries" style="font-size: 17px;">Scroll Up to Scan Entries. Current entry: </a>').insertAfter($(this));
+                $('<a id="scanningEntries" style="font-size: 17px;">Scroll Up to Scan Entries. # of entries scanned: </a>').insertAfter($(this));
                 $(this).hide();
 
                 log = "";
