@@ -7,7 +7,7 @@
 // @include      https://teams.microsoft.com*
 // @require      https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js
 // @require      https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js
-// @updateURL    https://github.com/ZKitcher/Velocity_Scripts/raw/master/Teams%20Log%20Download.user.js
+// @updateURL    https://github.com/ZKitcher/MS_Teams_Scripts/raw/master/Teams%20Channel%20Logger.user.js
 // ==/UserScript==
 
 (function() {
