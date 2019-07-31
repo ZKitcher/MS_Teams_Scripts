@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Teams Log Download
 // @namespace    http://tampermonkey.net/
-// @version      0.6
+// @version      0.7
 // @description  Download the current teams channel log.
 // @author       Zachary Kitcher
 // @include      https://teams.microsoft.com*
