@@ -1,8 +1,8 @@
 // ==UserScript==
-// @name         Teams Log Download
+// @name         Teams Channel Logger
 // @namespace    http://tampermonkey.net/
 // @version      0.6
-// @description  Download the current teams channel log.
+// @description  Scan and download the current teams channel log.
 // @author       Zachary Kitcher
 // @include      https://teams.microsoft.com*
 // @require      https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js
