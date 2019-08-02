@@ -12,23 +12,23 @@
 
 (function() {
     'use strict';
-    var url = "data:text/html;charset=UTF-8,";
-    var channelTitle, log, entry, title;
-    var loading = 3;
-    var style = '<style type="text/css"> <!-- p { margin-left: 40px; } --> </style>';
+	var url = "data:text/html;charset=UTF-8,";
+	var channelTitle, log, entry, title;
+	var loading = 3;
+	var style = '<style type="text/css"> <!-- p { margin-left: 40px; } --> </style>';
 
-    setInterval(function(){
-        if ($('a[id="expandButton"]').length === 0){
-            $('<a id="expandButton" style="cursor: pointer; font-size: 17px;">Expand All Entries</a>').insertAfter($('#settingsDropdown'));
+	setInterval(function(){
+		if ($('a[id="expandButton"]').length === 0){
+			$('<a id="expandButton" style="cursor: pointer; font-size: 17px;">Expand All Entries</a>').insertAfter($('#settingsDropdown'));
 
-            $('#expandButton').click(function() {
-                $('<a id="scanningEntries" style="font-size: 17px;">Scroll down to the latest entry</a>').insertAfter($(this));
-                $(this).hide();
+			$('#expandButton').click(function() {
+				$('<a id="scanningEntries" style="font-size: 17px;">Scroll down to the latest entry</a>').insertAfter($(this));
+				$(this).hide();
 
-                log = "";
-                entry = "";
+				log = "";
+				entry = "";
 
-                var entryCount = 0;
+				var entryCount = 0;
 				var headerCounter = 0;
 				var topCount = 0;
 
@@ -38,7 +38,7 @@
 						loading++;
 					}else{
 						loading = 1;
-                    };
+					};
 					if(loading == 3){
 						$('a[id="loadingIcon"]').text("...");
 					}else if(loading == 2){
@@ -98,30 +98,30 @@
 						};
 					});
 					var topOfPageCheck = $('div[class*="list-wrap list-wrap-v3 ts-message-list-container"]').position('top').top;
-                    if(topOfPageCheck == 0 && entryCount != 0){
+					if(topOfPageCheck == 0 && entryCount != 0){
 						$('a[id="scanningEntries"]').text("Formatting Download");
-                        topCount++;
-                        console.log("Top of Page count " + topCount);
-                        if(topCount == 10){
-                            clearInterval(expantInterval);
-                            clearInterval(loadingInterval);
-                            $('a[id="loadingIcon"]').hide();
-                            log = style + title +entry + log;
-                            var htmlTitle = $('h2[class="ts-title channel-name"]').text();
-                            console.log(log);
-                            $('<a id="downloadLog" style="font-size: 17px;">Download Channel Log</a>').insertAfter('a[id="scanningEntries"]');
-                            $('a[id="scanningEntries"]').hide();
-                            $('a[id="downloadLog"]').attr({
-                                href:("data:text/html;charset=UTF-8,"+log),
-                                download:(htmlTitle+".html")
-                            });
-                        };
-                    }else{
-                        topOfPageCheck = 0;
-			$('a[id="scanningEntries"]').text("Scroll Up to Scan Entries. # of entries scanned: " + entryCount);
-                    };
-                }, 100);
-            });
-        };
-    }, 1000);
+						topCount++;
+						console.log("Top of Page count " + topCount);
+						if(topCount == 10){
+							clearInterval(expantInterval);
+							clearInterval(loadingInterval);
+							$('a[id="loadingIcon"]').hide();
+							log = style + title +entry + log;
+							var htmlTitle = $('h2[class="ts-title channel-name"]').text();
+							console.log(log);
+							$('<a id="downloadLog" style="font-size: 17px;">Download Channel Log</a>').insertAfter('a[id="scanningEntries"]');
+							$('a[id="scanningEntries"]').hide();
+							$('a[id="downloadLog"]').attr({
+								href:("data:text/html;charset=UTF-8,"+log),
+								download:(htmlTitle+".html")
+							});
+						};
+					}else{
+						topOfPageCheck = 0;
+						$('a[id="scanningEntries"]').text("Scroll Up to Scan Entries. # of entries scanned: " + entryCount);
+					};
+				}, 100);
+			});
+		};
+	}, 1000);
 })()
