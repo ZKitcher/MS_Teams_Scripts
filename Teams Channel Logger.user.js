@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Teams Channel Logger
 // @namespace    http://tampermonkey.net/
-// @version      0.9
+// @version      1.0
 // @description  Scan and download the current teams channel log.
 // @author       Zachary Kitcher
 // @include      https://teams.microsoft.com*
@@ -118,7 +118,6 @@
 						};
 					}else{
 						topOfPageCheck = 0;
-						$('a[id="scanningEntries"]').text("Scroll Up to Scan Entries. # of entries scanned: " + entryCount);
 					};
 				}, 100);
 			});
