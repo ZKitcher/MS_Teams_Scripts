@@ -87,9 +87,6 @@
 										};
 									};
 								});
-								if(entryCount != 0){
-									$('a[id="scanningEntries"]').text("Scroll Up to Scan Entries. # of entries scanned: " + entryCount);
-								};
 								entryCount++;
 							}else{
 								console.log("System Message");
