@@ -118,6 +118,9 @@
 						};
 					}else{
 						topOfPageCheck = 0;
+						if(entryCount != 0){
+							$('a[id="scanningEntries"]').text("Scroll Up to Scan Entries. # of entries scanned: " + entryCount);
+						};
 					};
 				}, 100);
 			});
