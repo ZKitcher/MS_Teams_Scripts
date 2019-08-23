@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Teams Channel Logger
 // @namespace    http://tampermonkey.net/
-// @version      1.0
+// @version      1.1
 // @description  Scan and download the current teams channel log.
 // @author       Zachary Kitcher
 // @include      https://teams.microsoft.com*
@@ -48,6 +48,7 @@
 					};
 				}, 500);
 
+				var errorCheck = "NA";
 				var expantInterval = setInterval(function() {
 					if ($('a[id="scanningEntries"]').length === 0){
 						clearInterval(expantInterval);
@@ -62,11 +63,15 @@
 							$(this).click();
 						};
 					});
-
 					$('div[data-scroll-pos]').each(function(){
 						title = ("<h1>" + $('h2[class="ts-title team-name"]').text() + "</h1><br>");
 
 						if($(this).attr('data-scroll-pos') == entryCount){
+							if(errorCheck == entryCount){
+								entryCount++;
+								console.log("Error encounted. Skipping Entry")
+							};
+							errorCheck = entryCount;
 							var systemEntryCheck = $(this).find('system-message[data-tid]').attr('data-tid');
 							var deletedMessageCheck = $(this).find('div[id*="deleted-message"]').attr('id')
 							if(systemEntryCheck == null && deletedMessageCheck == null){
