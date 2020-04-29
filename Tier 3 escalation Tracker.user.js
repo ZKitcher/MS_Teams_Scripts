@@ -1,11 +1,12 @@
 // ==UserScript==
-// @name         Tier 3 escalation Tracker
+// @name         Tier 3 Escalation Tracker
 // @namespace    https://teams.microsoft.com/
 // @version      0.1
 // @description  Track and log daily T3 escalations.
 // @author       Zachary Kitcher
 // @include      https://teams.microsoft.com/*
 // @require      https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js
+// @updateURL    https://github.com/ZKitcher/MS_Teams_Scripts/raw/master/Tier%203%20Escalation%20Tracker.user.js
 // ==/UserScript==
 
 var date = getDate();
