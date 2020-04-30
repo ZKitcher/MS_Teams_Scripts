@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Tier 3 Escalation Tracker
 // @namespace    https://teams.microsoft.com/
-// @version      0.2
+// @version      0.3
 // @description  Track and log daily T3 escalations.
 // @author       Zachary Kitcher
 // @include      https://teams.microsoft.com/*
@@ -306,7 +306,7 @@ function exportEscalation(){
     buildExportTable()
     exportTableFormatting()
     fnExcelReport($('#exportTable'))
-    //$('#exportTable').remove();
+    $('#exportTable').remove();
 };
 
 function exportTableFormatting(){
