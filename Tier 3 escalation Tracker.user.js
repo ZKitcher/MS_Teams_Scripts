@@ -136,6 +136,7 @@ function dailyDownload(){
 
 function appendExportBtn(){
     if($('#T3EscalationLog').length == 0){
+        date = getDate()
         var exportBtn = `
 <li id="T3EscalationLog" name="escalationLoghtml" dnd-draggable="tab" dnd-type="'tabType'" role="presentation" draggable="true">
   <div title="Export Escalation" role="presentation">
@@ -147,7 +148,7 @@ function appendExportBtn(){
   </div>
 </li>
 <li name="escalationLoghtml escalationSettings" dnd-draggable="tab" dnd-type="'tabType'" role="presentation" draggable="true">
-  <div title="Export Escalation" role="presentation">
+  <div title="Export Settings" role="presentation">
     <a class="btn btn-default" style="max-width: max-content;">
     <span class="tab-btn-container">
     <span id="escalationSettingsBtn" class="tab-display-name">?</span>
