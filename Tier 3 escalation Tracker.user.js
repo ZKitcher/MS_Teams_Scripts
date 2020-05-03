@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Tier 3 Escalation Tracker
 // @namespace    https://teams.microsoft.com/
-// @version      0.3
+// @version      0.5
 // @description  Track and log daily T3 escalations.
 // @author       Zachary Kitcher
 // @include      https://teams.microsoft.com/*
@@ -98,7 +98,15 @@ function scanBackEntries(){
         var queryDay = timeStamp.substring(0,timeStamp.indexOf(','));
         queryDay = parseInt(queryDay.replace(/\D+/g, ''));
 
-        if(selectedMonth >= queryMonth && selectedDay <= queryDay){
+        var push = false;
+
+        if(selectedMonth < queryMonth){
+            push = true;
+        }else if(selectedMonth == queryMonth && selectedDay <= queryDay){
+           push = true;
+        };
+
+        if(push){
             if(index){
                 $('#T3EscalationLog').find('[class="tab-display-name"]').text('Scroll up, top entry ' + timeStamp)
             };
@@ -119,13 +127,10 @@ function scanBackEntries(){
 
 function dailyDownload(){
     var time = getTime();
-    console.log(time)
-    if(time == '23:59'){
+    if(time == '24:00'){
         exportEscalation();
         escalationJSON = [];
-        setTimeout(function(){
-            date = getDate();
-        }, 60000);
+        date = getDate();
     };
 };
 
@@ -291,11 +296,7 @@ function appendExportBtn(){
             };
         });
         $(document).click(function(e){
-            console.log(e.target)
-            console.log(!$(e.target).is('#exportSettings'))
-            console.log(!$(e.target).is('#escalationSettingsBtn'))
             if(!$(e.target).is('#exportSettings') && !$(e.target).is('#escalationSettingsBtn') && !$(e.target).is('[name="radSettingSpan"]') && !$(e.target).is('[name="radSetting"]')){
-                console.log('hiding')
                 $('#exportSettings').css('visibility', 'hidden');
             };
         });
@@ -403,6 +404,7 @@ function buildExportTable(){
 };
 
 function sortJSON(){
+    console.log(escalationJSON)
     var masterArray = [];
     var tempArray = [];
     var lower = 50, upper = 0;
@@ -431,8 +433,9 @@ function sortJSON(){
     for(var k = 0; k < masterArray.length; k++){
         masterArray[k] = sortByKey(masterArray[k], 'queryDay')
     };
+
     console.log(masterArray)
-    escalationJSON = masterArray[0];
+    escalationJSON = masterArray.flat();
 };
 
 function sortByKey(array, key){
