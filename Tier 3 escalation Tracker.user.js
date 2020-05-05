@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Tier 3 Escalation Tracker
 // @namespace    https://teams.microsoft.com/
-// @version      0.5
+// @version      0.6
 // @description  Track and log daily T3 escalations.
 // @author       Zachary Kitcher
 // @include      https://teams.microsoft.com/*
@@ -11,6 +11,8 @@
 
 var date = getDate();
 var escalationJSON = [];
+var dlTime;
+loadDownloadTime();
 
 (function() {
     'use strict';
@@ -127,7 +129,7 @@ function scanBackEntries(){
 
 function dailyDownload(){
     var time = getTime();
-    if(time == '24:00'){
+    if(time == dlTime){
         exportEscalation();
         escalationJSON = [];
         date = getDate();
@@ -246,6 +248,14 @@ function appendExportBtn(){
             </div>
           </a>
         </li>
+        <li ng-repeat="tab in mh.tabs" ng-if="tab.isOverflow" dnd-type="'tabType'" acc-role-dom="menu-item focus-default" role="menuitem" class="kb-active" tabindex="0">
+          <a class="ts-sym" tabindex="-1">
+            <div class="button-content-container">
+              <input id="downloadTime" style="width: 20%;">
+              <span class="ts-popover-label" name="radSettingSpan" style="width: 60px;">Automatic Download Time</span>
+            </div>
+          </a>
+        </li>
       </ul>
       <div class="tse-scrollbar simple-scrollbar">
         <div class="drag-handle handle-hidden"></div>
@@ -254,9 +264,10 @@ function appendExportBtn(){
   </div>
 </div>
 `
+
         $('[data-tid="appTabs"]').append(exportBtn)
+        $('#downloadTime').val(dlTime)
         $('#todaysEscalation').prop('checked', true)
-        //$('#daysPrevious').prop('checked', true)
 
         $('#T3EscalationLog').click(function(){
             exportEscalation();
@@ -297,11 +308,51 @@ function appendExportBtn(){
             };
         });
         $(document).click(function(e){
-            if(!$(e.target).is('#exportSettings') && !$(e.target).is('#escalationSettingsBtn') && !$(e.target).is('[name="radSettingSpan"]') && !$(e.target).is('[name="radSetting"]')){
+            if(!$(e.target).is('#exportSettings') && !$(e.target).is('#escalationSettingsBtn') && !$(e.target).is('[name="radSettingSpan"]') && !$(e.target).is('[name="radSetting"]') && !$(e.target).is('#downloadTime')){
                 $('#exportSettings').css('visibility', 'hidden');
             };
         });
+        $('#downloadTime').on('input', function(){
+            confirmTimeInput();
+        });
     };
+};
+
+function confirmTimeInput(){
+    var valid = false;
+    var input = $('#downloadTime').val();
+
+    if(input.match(/:/g).length == 1){
+        var hour = input.split(':')[0];
+        var min = input.split(':')[1];
+        if(!hour.match(/\D/g) && !min.match(/\D/g)){
+            if(hour.length == 2 && min.length == 2){
+                if((hour > 0 && hour < 25) && (min > -1 && min < 60)){
+                    valid = true;
+                    dlTime = input;
+                };
+            };
+        };
+    };
+
+    if(valid){
+        $('#downloadTime').css('background', 'green')
+        saveDownloadTime();
+    }else{
+        $('#downloadTime').css('background', 'red')
+    };
+};
+
+function saveDownloadTime(){
+    localStorage.setItem('DownloadTime', dlTime);
+};
+
+function loadDownloadTime(){
+    dlTime = localStorage.getItem('DownloadTime')
+    if(dlTime == '' || dlTime == null){
+        dlTime = '24:00';
+    };
+    console.log(dlTime);
 };
 
 function exportEscalation(){
