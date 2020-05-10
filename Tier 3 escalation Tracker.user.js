@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Tier 3 Escalation Tracker
 // @namespace    https://teams.microsoft.com/
-// @version      0.6
+// @version      0.7
 // @description  Track and log daily T3 escalations.
 // @author       Zachary Kitcher
 // @include      https://teams.microsoft.com/*
@@ -128,11 +128,13 @@ function scanBackEntries(){
 };
 
 function dailyDownload(){
-    var time = getTime();
-    if(time == dlTime){
-        exportEscalation();
-        escalationJSON = [];
-        date = getDate();
+    if($('#T3EscalationLog').length > 0){
+        var time = getTime();
+        if(time == dlTime){
+            exportEscalation();
+            escalationJSON = [];
+            date = getDate();
+        };
     };
 };
 
