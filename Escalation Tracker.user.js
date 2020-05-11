@@ -1,17 +1,17 @@
 // ==UserScript==
-// @name         Tier 3 Escalation Tracker
+// @name         Escalation Tracker
 // @namespace    https://teams.microsoft.com/
-// @version      0.7
-// @description  Track and log daily T3 escalations.
+// @version      0.8
+// @description  Track and log daily escalations.
 // @author       Zachary Kitcher
 // @include      https://teams.microsoft.com/*
 // @require      https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js
-// @updateURL    https://github.com/ZKitcher/MS_Teams_Scripts/raw/master/Tier%203%20Escalation%20Tracker.user.js
+// @updateURL    https://github.com/ZKitcher/MS_Teams_Scripts/raw/master/Escalation%20Tracker.user.js
 // ==/UserScript==
 
 var date = getDate();
 var escalationJSON = [];
-var dlTime;
+var dlTime, pageHeader;
 loadDownloadTime();
 
 (function() {
@@ -20,8 +20,8 @@ loadDownloadTime();
     $('body').on('DOMSubtreeModified', function() {
         if(update == false){
             update = true;
-            var pageHeader = $('h2[data-tid="messagesHeader-Title"]').attr('title');
-            if(pageHeader == 'Tier 3 Escalations'){
+            pageHeader = $('h2[data-tid="messagesHeader-Title"]').attr('title');
+            if(pageHeader == 'Tier 3 Escalations' || pageHeader == 'TSE Escalations'){
                 appendExportBtn();
 
                 runFunctions()
@@ -29,6 +29,10 @@ loadDownloadTime();
             }else{
                 $('[name*="escalationLoghtml"]').remove();
             };
+
+            $('a[class*="channel-anchor"]').off().click(function(){
+                $('[name*="escalationLoghtml"]').remove();
+            });
             setTimeout(function(){
                 update = false;
             }, 500);
@@ -140,6 +144,7 @@ function dailyDownload(){
 
 function appendExportBtn(){
     if($('#T3EscalationLog').length == 0){
+        escalationJSON = [];
         date = getDate()
         var exportBtn = `
 <li id="T3EscalationLog" name="escalationLoghtml" dnd-draggable="tab" dnd-type="'tabType'" role="presentation" draggable="true">
@@ -524,7 +529,7 @@ function fnExcelReport(table) {
     var tab_text = ['<html xmlns:x="urn:schemas-microsoft-com:office:excel">',
                     '<head><xml><x:ExcelWorkbook><x:ExcelWorksheets><x:ExcelWorksheet>',
                     '<x:Name>',
-                    'Tier 3 Escalations ' + $('#exportHeading').attr('timeframe'),
+                    pageHeader + ' ' + $('#exportHeading').attr('timeframe'),
                     '</x:Name>',
                     '<x:WorksheetOptions><x:Panes></x:Panes></x:WorksheetOptions></x:ExcelWorksheet>',
                     '</x:ExcelWorksheets></x:ExcelWorkbook></xml></head><body>',
@@ -538,7 +543,7 @@ function fnExcelReport(table) {
 function exportExcel(tab_text){
     var data_type = 'data:application/vnd.ms-excel';
     var link = document.createElement('a');
-    link.download = 'Tier 3 Escalations ' + $('#exportHeading').attr('timeframe') + '.xls';
+    link.download = pageHeader + ' ' + $('#exportHeading').attr('timeframe') + '.xls';
     link.href = data_type + ', ' + encodeURIComponent(tab_text);
     link.click();
     link.remove();
